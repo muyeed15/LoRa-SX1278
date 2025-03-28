@@ -49,14 +49,14 @@ void loop() {
     lastSensorTime = currentMillis;
 
     int adc = analogRead(A0);
-    float voltageSensor = adc * 5.0 / 1023.0;
-    globalCurrent = (voltageSensor - 2.5) / 0.066;
-    
+    float voltageSensor = adc * 5.0 / 1023.0;  // Assumes a 5V reference for ADC conversion
+    globalCurrent = (voltageSensor - 2.5) / 0.066;  // Assumes ACS712 output is centered at 2.5V (midpoint of 5V)
+
     if (abs(globalCurrent) < 0.05) {
       globalCurrent = 0.0;
     }
     
-    globalPower = 5.0 * globalCurrent;
+    globalPower = 5.0 * globalCurrent;  // Assumes a 5V load voltage for power calculation
     energyWh += globalPower * (SENSOR_INTERVAL / 3600000.0);
   }
   
